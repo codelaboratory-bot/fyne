@@ -47,9 +47,15 @@ type TextGridStyle interface {
 	BackgroundColor() color.Color
 }
 
+// TextGridTextStyle defines the text style that can be applied to a TextGrid cell.
+type TextGridTextStyle interface {
+	TextStyle() *fyne.TextStyle
+}
+
 // CustomTextGridStyle is a utility type for those not wanting to define their own style types.
 type CustomTextGridStyle struct {
 	FGColor, BGColor color.Color
+	Text             *fyne.TextStyle
 }
 
 // TextColor is the color a cell should use for the text.
@@ -60,6 +66,11 @@ func (c *CustomTextGridStyle) TextColor() color.Color {
 // BackgroundColor is the color a cell should use for the background.
 func (c *CustomTextGridStyle) BackgroundColor() color.Color {
 	return c.BGColor
+}
+
+// TextStyle is the text style a cell should use for the text.
+func (c *CustomTextGridStyle) TextStyle() *fyne.TextStyle {
+	return c.Text
 }
 
 // TextGrid is a monospaced grid of characters.
@@ -365,16 +376,30 @@ func (t *textGridRenderer) setCellRune(str rune, pos int, style, rowStyle TextGr
 
 	text := t.objects[pos*2+1].(*canvas.Text)
 	text.TextSize = theme.TextSize()
+	textStyle := text.TextStyle
+
 	fg := theme.ForegroundColor()
 	if style != nil && style.TextColor() != nil {
 		fg = style.TextColor()
 	} else if rowStyle != nil && rowStyle.TextColor() != nil {
 		fg = rowStyle.TextColor()
 	}
+
+	if ts, ok := style.(TextGridTextStyle); style != nil && ok {
+		if stylePtr := ts.TextStyle(); stylePtr != nil {
+			textStyle = *stylePtr
+		}
+	} else if ts, ok := rowStyle.(TextGridTextStyle); rowStyle != nil && ok {
+		if stylePtr := ts.TextStyle(); stylePtr != nil {
+			textStyle = *stylePtr
+		}
+	}
+
 	newStr := string(str)
-	if text.Text != newStr || text.Color != fg {
+	if text.Text != newStr || text.Color != fg || textStyle != text.TextStyle {
 		text.Text = newStr
 		text.Color = fg
+		text.TextStyle = textStyle
 		t.refresh(text)
 	}
 
