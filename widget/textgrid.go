@@ -58,7 +58,9 @@ type TextGridTextStyle interface {
 
 // CustomTextGridStyle is a utility type for those not wanting to define their own style types.
 type CustomTextGridStyle struct {
-	FGColor, BGColor     color.Color
+	FGColor, BGColor color.Color
+	//
+	// Since: 2.5
 	IsBold, IsUnderlined bool
 }
 
