@@ -6,7 +6,7 @@ package gl
 import (
 	"strings"
 
-	"github.com/go-gl/gl/v3.2-core/gl"
+	"github.com/go-gl/gl/v4.2-core/gl"
 
 	"fyne.io/fyne/v2"
 )
