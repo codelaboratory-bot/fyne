@@ -17,7 +17,7 @@ func (d *gLDriver) initGLFW() {
 		if runtime.GOOS == "darwin" && runtime.GOARCH == "arm64" {
 			drawOnMainThread = true
 		}
-
+		fmt.Println("glfw.Init")
 		err := glfw.Init()
 		if err != nil {
 			fyne.LogError("failed to initialise GLFW", err)

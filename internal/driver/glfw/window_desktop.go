@@ -6,6 +6,7 @@ package glfw
 import (
 	"bytes"
 	"context"
+	"fmt"
 	"image"
 	_ "image/png" // for the icon
 	"runtime"
@@ -734,6 +735,7 @@ func (w *window) create() {
 			pixHeight = 10
 		}
 
+		fmt.Println("glfw.CreateWindow")
 		win, err := glfw.CreateWindow(pixWidth, pixHeight, w.title, nil, nil)
 		if err != nil {
 			w.driver.initFailed("window creation error", err)
