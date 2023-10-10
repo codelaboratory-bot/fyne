@@ -15,7 +15,7 @@ import (
 func initWindowHints() {
 	fmt.Println("Initialising glfw")
 	glfw.WindowHint(glfw.ContextVersionMajor, 2)
-	glfw.WindowHint(glfw.ContextVersionMinor, 0)
+	glfw.WindowHint(glfw.ContextVersionMinor, 1)
 
 	//glfw.WindowHint(glfw.CocoaGraphicsSwitching, glfw.True)
 }
